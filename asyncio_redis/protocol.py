@@ -1647,6 +1647,17 @@ class RedisProtocol(asyncio.Protocol, metaclass=_RedisProtocolMeta):
         )
 
     @_query_command
+    def rpushb(self, tr, key: NativeType, values: bytes) -> int:
+        """Append one or multiple values to a list
+        """
+        return self._query(
+            tr,
+            b"rpush",
+            self.encode_from_native(key),
+            values,
+        )
+
+    @_query_command
     def rpushx(self, tr, key: NativeType, value: NativeType) -> int:
         """Append a value to a list, only if the list exists
         """
