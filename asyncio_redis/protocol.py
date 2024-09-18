@@ -1501,6 +1501,26 @@ class RedisProtocol(asyncio.Protocol, metaclass=_RedisProtocolMeta):
         )
 
     @_query_command
+    def xadd(
+            self, tr, stream: NativeType, id: NativeType, fields: ListOf(NativeType)
+    ) -> NativeType:
+        """
+        Appends a new entry to a stream.
+
+        :param stream: The name of the stream.
+        :param id: The ID of the entry. Use '*' to auto-generate an ID.
+        :param fields: A list of field-value pairs.
+        :return: The ID of the added entry.
+        """
+        return self._query(
+            tr,
+            b"xadd",
+            self.encode_from_native(stream),
+            self.encode_from_native(id),
+            *map(self.encode_from_native, fields),
+        )
+
+    @_query_command
     def srem(self, tr, key: NativeType, members: ListOf(NativeType)) -> int:
         """Remove one or more members from a set
         """
