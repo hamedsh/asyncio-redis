@@ -1502,7 +1502,7 @@ class RedisProtocol(asyncio.Protocol, metaclass=_RedisProtocolMeta):
 
     @_query_command
     def xadd(
-            self, tr, stream: NativeType, id: NativeType, fields: dict,
+            self, tr, stream: NativeType, fields: dict, id: NativeType='*',
     ) -> NativeType:
         """
         Appends a new entry to a stream.
