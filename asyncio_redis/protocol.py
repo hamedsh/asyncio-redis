@@ -1512,12 +1512,13 @@ class RedisProtocol(asyncio.Protocol, metaclass=_RedisProtocolMeta):
         :param fields: A list of field-value pairs.
         :return: The ID of the added entry.
         """
+        flattened_list = [item for sublist in fields.items() for item in sublist]
         return self._query(
             tr,
             b"xadd",
             self.encode_from_native(stream),
             self.encode_from_native(id),
-            *map(self.encode_from_native, fields),
+            *map(self.encode_from_native, flattened_list),
         )
 
     @_query_command

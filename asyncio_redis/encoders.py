@@ -62,11 +62,15 @@ class StringEncoder(BaseEncoder):
 
     def encode_from_native(self, data):
         """ string to bytes """
-        return data.encode(self.encoding)
+        if isinstance(data, str):
+            return data.encode(self.encoding)
+        return data
 
     def decode_to_native(self, data):
         """ bytes to string """
-        return data.decode(self.encoding)
+        if isinstance(data, bytes):
+            return data.decode(self.encoding)
+        return data
 
 
 class UTF8Encoder(StringEncoder):
